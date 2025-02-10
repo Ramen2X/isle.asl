@@ -152,5 +152,9 @@ isLoading
 	// If current cursor is set to the normal pointer and Mosaic transition has stopped
 	if (old.cursorCurrent != current.cursorCurrent && current.mode == 0)
 		return false;
+
+	// Workaround for oversight with cursor handling during Gas Station mission loading
+	if (current.currentArea == 28 && old.cursorCurrent == current.cursorCurrent && current.mode == 0)
+		return false;
 }
 
