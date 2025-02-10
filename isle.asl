@@ -26,6 +26,16 @@ state("ISLE", "Danish")
 
 	// https://github.com/isledecomp/isle/blob/master/LEGO1/lego/legoomni/include/hospital.h#L43
 	short hospMissionState: "LEGO1.DLL", 0x001015D0, 0x9C, 0x08, 0x1C, 0x08;
+
+	// MxTransitionManager members
+
+	// https://github.com/isledecomp/isle/blob/master/LEGO1/lego/legoomni/include/mxtransitionmanager.h#L75
+	byte mode: "LEGO1.DLL", 0x001015D0, 0x138, 0x2C;
+
+	// IsleApp members
+
+	// https://github.com/isledecomp/isle/blob/master/ISLE/isleapp.h#L76
+	int cursorCurrent : "ISLE.EXE", 0x00010030, 0x88;
 }
 
 init
@@ -119,5 +129,28 @@ split
 		vars.splitIndex[6] = true;
 		return true;
 	}
+}
+
+isLoading
+{
+	// If current cursor is set to the Wait indicator and Mosaic transition is playing
+	//
+	// cursorCurrent is a member variable of IsleApp that holds the current cursor;
+	// I didn't want to go through the effort of defining the HCURSOR struct here,
+	// so I'm just using a hacky method to check if it's been updated
+	// using the integer representation of its value
+	//
+	// mode is a member variable of MxTransitionManager that holds the transition animation type
+	// The enum is here: https://github.com/isledecomp/isle/blob/master/LEGO1/lego/legoomni/include/mxtransitionmanager.h#L38
+	// All of these values except for idle and mosaic go completely unused by the game
+	//
+	// We check the transition type in addtion to the cursor to make sure we're not pausing
+	// in the potential case that the cursor gets updated in some other non-loading scenario
+	if (current.cursorCurrent > old.cursorCurrent && current.mode == 3)
+		return true;
+
+	// If current cursor is set to the normal pointer and Mosaic transition has stopped
+	if (old.cursorCurrent > current.cursorCurrent && current.mode == 0)
+		return false;
 }
 
