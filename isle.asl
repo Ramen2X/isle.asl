@@ -25,7 +25,7 @@ state("ISLE", "Danish")
 	// HospitalState members
 
 	// https://github.com/isledecomp/isle/blob/master/LEGO1/lego/legoomni/include/hospital.h#L43
-	short hospMissionState: "LEGO1.DLL", 0x001015D0, 0xF8, 0x38, 0x78, 0x94, 0x264, 0x1C, 0x08;
+	short hospMissionState: "LEGO1.DLL", 0x001015D0, 0x9C, 0x08, 0x1C, 0x08;
 }
 
 init
