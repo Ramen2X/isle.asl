@@ -146,11 +146,11 @@ isLoading
 	//
 	// We check the transition type in addtion to the cursor to make sure we're not pausing
 	// in the potential case that the cursor gets updated in some other non-loading scenario
-	if (current.cursorCurrent > old.cursorCurrent && current.mode == 3)
+	if (current.cursorCurrent != old.cursorCurrent && current.mode == 3)
 		return true;
 
 	// If current cursor is set to the normal pointer and Mosaic transition has stopped
-	if (old.cursorCurrent > current.cursorCurrent && current.mode == 0)
+	if (old.cursorCurrent != current.cursorCurrent && current.mode == 0)
 		return false;
 }
 
