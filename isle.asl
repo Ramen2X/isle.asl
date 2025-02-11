@@ -78,7 +78,7 @@ split
 		return true;
 	}
 
-	// If going into Helicopter rebuild from Act 3
+	// If going into Helicopter rebuild from Act 2
 	if (old.currentArea == 46 && current.currentArea == 36 && !vars.splitIndex[1])
 	{
 		vars.splitIndex[1] = true;
@@ -156,5 +156,14 @@ isLoading
 	// Workaround for oversight with cursor handling during Gas Station mission loading
 	if (current.currentArea == 28 && old.cursorCurrent == current.cursorCurrent && current.mode == 0)
 		return false;
+}
+
+onReset
+{
+	// Clear up the split index on reset, otherwise all splits will be ignored
+	for (byte i = 0; i < vars.splitIndex.Count; i++)
+	{
+		vars.splitIndex[i] = false;
+	}
 }
 
