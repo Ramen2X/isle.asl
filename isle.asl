@@ -78,8 +78,8 @@ split
 		return true;
 	}
 
-	// If going into Act 3 from Helicopter rebuild
-	if (old.currentArea == 36 && current.currentArea == 47 && !vars.splitIndex[1])
+	// If going into Helicopter rebuild from Act 3
+	if (old.currentArea == 46 && current.currentArea == 36 && !vars.splitIndex[1])
 	{
 		vars.splitIndex[1] = true;
 		return true;
