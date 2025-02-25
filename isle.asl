@@ -32,6 +32,11 @@ state("ISLE", "Danish")
 	// https://github.com/isledecomp/isle/blob/master/LEGO1/lego/legoomni/include/mxtransitionmanager.h#L75
 	byte mode: "LEGO1.DLL", 0x001015D0, 0x138, 0x2C;
 
+	// MxDSObject members
+
+	// https://github.com/isledecomp/isle/blob/master/LEGO1/omni/include/mxdsobject.h#L97
+	uint objectId: "LEGO1.DLL", 0x001015D0, 0x70, 0x1A0, 0xA4, 0x44, 0x33C;
+
 	// IsleApp members
 
 	// https://github.com/isledecomp/isle/blob/master/ISLE/isleapp.h#L76
@@ -47,6 +52,7 @@ init
 	vars.splitIndex = new List<bool>()
 	{
 		false, // Act 2 entered
+		false, // Act 2 Brickster chase complete
 		false, // Act 2 complete, Act 3 entered
 		false, // Act 3 complete
 		false, // Hospital mission complete
@@ -78,17 +84,28 @@ split
 		return true;
 	}
 
-	// If going into Helicopter rebuild from Act 2
-	if (old.currentArea == 46 && current.currentArea == 36 && !vars.splitIndex[1])
+	// If Brickster chase complete
+	//
+	// This variable is the current object ID and is set to 280 for the Brickster's
+	// "fine I'll hide the rest so I can rest" dialogue. 578 is what it gets
+	// set to presumably for the whistling sound in the brick hunt mission
+	if (old.objectId == 280 && current.objectId == 578 && current.currentArea == 46 && !vars.splitIndex[1])
 	{
 		vars.splitIndex[1] = true;
 		return true;
 	}
 
-	// If going back to the Information Center from Act 3
-	if (old.currentArea == 47 && current.currentArea == 2 && !vars.splitIndex[2])
+	// If going into Helicopter rebuild from Act 2
+	if (old.currentArea == 46 && current.currentArea == 36 && !vars.splitIndex[2])
 	{
 		vars.splitIndex[2] = true;
+		return true;
+	}
+
+	// If going back to the Information Center from Act 3
+	if (old.currentArea == 47 && current.currentArea == 2 && !vars.splitIndex[3])
+	{
+		vars.splitIndex[3] = true;
 		return true;
 	}
 
@@ -96,16 +113,16 @@ split
 	//
 	// This variable is a member of HospitalState that appears to be set
 	// to 2 when a cutscene starts; this is why we check the previous area
-	if (old.hospMissionState == 0 && current.hospMissionState == 2 && old.currentArea == 66 && !vars.splitIndex[3])
+	if (old.hospMissionState == 0 && current.hospMissionState == 2 && old.currentArea == 66 && !vars.splitIndex[4])
 	{
-		vars.splitIndex[3] = true;
+		vars.splitIndex[4] = true;
 		return true;
 	}
 
 	// If returning from the Jetski race
-	if (old.currentArea == 14 && current.currentArea == 15 && !vars.splitIndex[4])
+	if (old.currentArea == 14 && current.currentArea == 15 && !vars.splitIndex[5])
 	{
-		vars.splitIndex[4] = true;
+		vars.splitIndex[5] = true;
 		return true;
 	}
 
@@ -113,9 +130,9 @@ split
 	//
 	// This variable is a member of TowTrackState that holds the recorded
 	// score as an enum; 0 represents no score and 3 represents a red brick
-	if (old.towHighScore == 0 && current.towHighScore == 3 && !vars.splitIndex[5])
+	if (old.towHighScore == 0 && current.towHighScore == 3 && !vars.splitIndex[6])
 	{
-		vars.splitIndex[5] = true;
+		vars.splitIndex[6] = true;
 		return true;
 	}
 
@@ -124,9 +141,9 @@ split
 	// This variable is a member of CarRace holding action IDs;
 	// a randomly selected one from a list of three is put into
 	// this variable if the player achieves first place in the race
-	if (old.firstPlaceAction == -1 && current.firstPlaceAction == 519 || current.firstPlaceAction == 520 || current.firstPlaceAction == 521 && !vars.splitIndex[6])
+	if (old.firstPlaceAction == -1 && current.firstPlaceAction == 519 || current.firstPlaceAction == 520 || current.firstPlaceAction == 521 && !vars.splitIndex[7])
 	{
-		vars.splitIndex[6] = true;
+		vars.splitIndex[7] = true;
 		return true;
 	}
 }
