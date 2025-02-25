@@ -35,7 +35,7 @@ state("ISLE", "Danish")
 	// MxDSObject members
 
 	// https://github.com/isledecomp/isle/blob/master/LEGO1/omni/include/mxdsobject.h#L97
-	uint objectId: "LEGO1.DLL", 0x001015D0, 0x70, 0x1A0, 0xA4, 0x44, 0x33C;
+	uint objectId: "LEGO1.DLL", 0x001015D0, 0xBC;
 
 	// IsleApp members
 
