@@ -163,7 +163,7 @@ isLoading
 	//
 	// We check the transition type in addtion to the cursor to make sure we're not pausing
 	// in the potential case that the cursor gets updated in some other non-loading scenario
-	if (current.cursorCurrent != old.cursorCurrent && current.mode == 3)
+	if (current.cursorCurrent != old.cursorCurrent && current.mode == 3 && current.currentArea != 15)
 		return true;
 
 	// If current cursor is set to the normal pointer and Mosaic transition has stopped
@@ -172,6 +172,10 @@ isLoading
 
 	// Workaround for oversight with cursor handling during Gas Station mission loading
 	if (current.currentArea == 28 && old.cursorCurrent == current.cursorCurrent && current.mode == 0)
+		return false;
+
+	// Workaround for oversight with cursor handling during Jetski race completion transition
+	if (current.currentArea == 15 && old.cursorCurrent == current.cursorCurrent && current.mode == 0)
 		return false;
 }
 
